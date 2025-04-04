@@ -1,0 +1,33 @@
+:root {
+    /* Mobile size first */
+    --tile-size : min(9vw,9vh);
+    --quarter-tile: calc(0.25 * var(--tile-size));
+    --board-size:calc(8 * var(--tile-size));
+    --tile-colour-light : #E8FBDB;
+    --tile-colour-dark : #95A329;
+    --background-color : #031D25;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    :root {
+      --tile-size: min(8vw, 8vh);
+      --quarter-tile: calc(0.25 * var(--tile-size));
+      --board-size:calc(8 * var(--tile-size));
+      --tile-colour-light : #E8FBDB ;
+      --tile-colour-dark : #95A329;
+      --background-colour : #031D25;
+    }
+  }
+
+/* Desktop */
+@media (min-width: 1024px) {
+    :root {
+      --tile-size: min(6vw, 6vh);
+      --quarter-tile: calc(0.25 * var(--tile-size));
+      --board-size:calc(8 * var(--tile-size));
+      --tile-colour-light : #E8FBDB ;
+      --tile-colour-dark : #95A329;
+      --background-colour : #031D25;
+    }
+}

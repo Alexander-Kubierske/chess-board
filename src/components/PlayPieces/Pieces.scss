@@ -1,0 +1,52 @@
+.pieces {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: var(--quarter-tile);
+    height: 100%;
+    width: 100%;
+    max-height: var(--board-size);
+    max-width: var(--board-size);
+    overflow: hidden
+
+    /** for testing
+    background-color: rgb(200, 0, 0,.5);
+    */
+}
+
+.piece {
+    width: 12.5%;
+    height: 12.5%;
+    position: absolute;
+    background-size: 100%;
+    user-select:all;
+}
+
+// Chess Piece Variables //
+$pieces: ( "p", "r", "n", "b", "q", "k" );
+$colors: ( "w", "b" );
+
+// dynamic positioning tool //
+@mixin piece-position($rank, $file) {
+    transform: translate($file * 100%, $rank * 100%);
+}
+
+// Piece position allocator //
+@for $rank from 0 through 7 {
+    @for $file from 0 through 7 {
+        .piece.p-#{$rank}#{$file} {
+            @include piece-position($rank, $file);
+        }
+    }
+}
+
+// Piece background image assignment //
+@each $color in $colors {
+    @each $piece in $pieces {
+        .piece.#{$color}#{$piece} {
+            background-image: url("../../assets/#{$color}#{$piece}.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+    }
+}
