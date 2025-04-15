@@ -1,3 +1,4 @@
+import { useAppContext } from '../../contexts/Contexts';
 import Pieces from '../PlayPieces/Pieces';
 import './Board.css';
 import Files from './boardComponents/Files'
@@ -16,19 +17,6 @@ import Ranks from './boardComponents/Ranks'
 const Board = () => {
 
     /**
-     * Determines the tile color by checking if the row and column index are odd or even.
-     * 
-     * @param {number} row - The row index (rank).
-     * @param {number} col - The column index (file).
-     * @returns {string} The appropriate class name for the tile.
-     */
-    const getClassName = (row:number,col:number) => {
-        let tileClassName = ''
-        tileClassName += (row+col) % 2===0? 'tile--dark' : 'tile--light'
-        return tileClassName
-    }
-    
-    /**
     * Array structure: `[8, 7, 6, 5, 4, 3, 2, 1]` later converted to h-a
     * @constant {number[]} ranks - An array of rank numbers from 8 (top) to 1 (bottom).
     */
@@ -39,6 +27,30 @@ const Board = () => {
     */
     const files = Array(8).fill(null).map((_,col)=> col+1)
 
+    const {appState} = useAppContext()
+    const position = appState.position[appState.position.length -1]
+
+    /**
+     * Determines the tile color by checking if the row and column index are odd or even.
+     * 
+     * @param {number} row - The row index (rank).
+     * @param {number} col - The column index (file).
+     * @returns {string} The appropriate class name for the tile.
+     */
+    const getClassName = (row:number,col:number) => {
+        let tileClassName = 'tile'
+        tileClassName += (row+col) % 2===0? ' tile--dark' : ' tile--light'
+
+        if (appState.availableMoves?.find(m => m[0] === row && m[1] === col)){
+            if(position[row][col])
+                tileClassName+= ' attacking'
+            else
+                tileClassName+= ' highlight'
+        }
+
+        return tileClassName
+    }
+
     return <div className='board'>
 
         <Ranks ranks={ranks}/>
@@ -46,7 +58,7 @@ const Board = () => {
         <div className='tiles'>
             {ranks.map((rank,row) =>
                 files.map((file,col) =>
-                    <div key={`${file}-${rank}`} className={getClassName(9-row,col)}></div>
+                    <div key={`${file}-${rank}`} className={getClassName(7-row,col)}></div>
                 )
             )}
         </div>

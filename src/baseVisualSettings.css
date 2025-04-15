@@ -6,6 +6,7 @@
     --tile-colour-light : #E8FBDB;
     --tile-colour-dark : #95A329;
     --background-color : #031D25;
+    --highlight : rgba(0,0,0,.1)
 }
 
 /* Tablet */

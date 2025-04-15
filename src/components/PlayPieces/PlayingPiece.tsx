@@ -1,3 +1,7 @@
+import arbiter from "../../arbiter/arbiter";
+import { useAppContext } from "../../contexts/Contexts";
+import { generateAvailableMoves } from "../../reducer/actions/movePiece";
+
 interface PlayingPieceProps {
     /**Horizontal row in which the piece is placed (a-h) represented as a number (0-7)*/
     rank: number; 
@@ -21,10 +25,20 @@ interface PlayingPieceProps {
  */
 const PlayingPiece: React.FC<PlayingPieceProps> = ({rank,file,piece}) => {
 
+    const {appState, dispatch} = useAppContext()
+    const {turn, position} = appState;
+    const currentPosition = position[position.length-1]
+
+    
+
     const onDragStartFn = e =>{
         e.dataTransfer.effectAllowed = 'move'
         e.dataTransfer.setData('text/plain',`${piece},${rank},${file}`)
         setTimeout(()=>{e.target.style.display = 'none'},0)
+        if (turn === piece[0]) {
+            const availableMoves = arbiter.getRegularMoves({position:currentPosition, piece, rank, file})
+            dispatch(generateAvailableMoves({availableMoves}))
+        }
     }
 
     const onDragEndFn = e => e.target.style.display = 'block'
