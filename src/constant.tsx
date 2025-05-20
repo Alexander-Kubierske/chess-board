@@ -1,13 +1,22 @@
 import { GameState, Position } from "./components/types/interfaces";
 import { createPosition } from "./helper";
 
-
+export const Status = {
+    'ongoing' : 'Ongoing',
+    'promoting' : 'Promoting',
+    'white' : 'White wins',
+    'black' : 'Black wins',
+}
 
 export const initGameState: GameState = {
     position: [createPosition()], // Creates the initial position of the chessboard
     turn: 'w', // White's turn to start the game
-    availableMoves : []
+    availableMoves : [],
+    status : Status.ongoing,
+    promotionSquare : null
 }
+
+
 
 /**
  * The starting state of a regular chess game. 

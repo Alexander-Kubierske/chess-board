@@ -1,0 +1,36 @@
+.promotion-choices {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    height: 12.5%;
+}
+
+.promotion-choices .piece {
+    width: 25%;
+    height: 100%;
+    border: 1px solid var(--tile-colour-dark);
+}
+
+.promotion-choices .piece:hover {
+    box-shadow: 0 0 0 5px var(--tile-colour-dark) inset;
+    transform: scale(1.05);
+}
+
+.promotion-choices :is(.wq,.bq){
+    left: 0;
+}
+
+.promotion-choices :is(.wr,.br){
+    left: 25%;
+}
+
+.promotion-choices :is(.wb,.bb){
+    left: 50%;
+}
+
+.promotion-choices :is(.wn,.bn){
+    left: 75%;
+}

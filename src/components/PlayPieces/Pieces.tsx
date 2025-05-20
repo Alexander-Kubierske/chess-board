@@ -3,7 +3,9 @@ import './Pieces.scss'
 import PlayingPiece from './PlayingPiece'
 import { createPosition, copyPosition } from '../../helper'
 import { useAppContext } from '../../contexts/Contexts'
+import arbiter from '../../arbiter/arbiter'
 import { clearAvailableMoves, makeNewMove } from '../../reducer/actions/movePiece'
+import { openPromotion } from '../../reducer/actions/popup'
 
 interface Coordinates {
     x: number
@@ -31,29 +33,46 @@ const Pieces = () =>{
         return {x,y}
     }
 
+    const openPromotionBox = ({rank, file, x, y}) => {
+        dispatch(openPromotion({rank: Number(rank), file: Number(file), x, y}))
+    }
+
+    const move = (event: React.DragEvent<HTMLDivElement>) => {
+        const {x,y} = calcCoords(event)
+
+        const [piece,rank,file] = event.dataTransfer.getData('text').split(',')
+        console.log(rank, file)
+
+        if (appState.availableMoves?.find(m => m[0] === x && m[1] === y)){
+            if ((piece === 'wp' && x === 7) ||  (piece === 'bp' && x === 0)) {
+                openPromotionBox({rank, file, x, y})
+                return 
+            }
+
+            const newPosition = arbiter.performMove({
+                position:currentPosition,
+                piece,
+                rank,
+                file,
+                x,
+                y
+            })
+
+            dispatch(makeNewMove({newPosition}))
+        }
+
+        dispatch(clearAvailableMoves())
+    }
+
     /**
     * Handles the drop event for moving a piece on the chessboard and calls dispatch to update the state.
     * 
     * @param {DragEvent} event - The drag event triggered when the user drops a piece.
     */
     const onDropFn = (event: React.DragEvent<HTMLDivElement>) => {
-        const newPosition = copyPosition(currentPosition)
-        const {x,y} = calcCoords(event)
+        event.preventDefault()
 
-        const [p,rank,file] = event.dataTransfer.getData('text').split(',')
-
-        if (appState.availableMoves?.find(m => m[0] === x && m[1] === y)){
-            // En-passant logic to remove defending pawn
-            if(p.endsWith('p') && !newPosition[x][y] && x !== rank && y !== file ){
-                newPosition[rank][y] = ''
-            }
-
-            newPosition[rank][file] = ''
-            newPosition[x][y] = p
-            dispatch(makeNewMove({newPosition}))
-        }
-
-        dispatch(clearAvailableMoves())
+        move(event)
     }
 
     const onDragOverFn = event => event.preventDefault()

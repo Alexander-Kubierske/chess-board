@@ -1,5 +1,6 @@
 import { useAppContext } from '../../contexts/Contexts';
 import Pieces from '../PlayPieces/Pieces';
+import Popup from '../Popup/Popup';
 import './Board.css';
 import Files from './boardComponents/Files'
 import Ranks from './boardComponents/Ranks'
@@ -64,6 +65,8 @@ const Board = () => {
         </div>
 
         <Pieces/>
+
+        <Popup/>
 
         <Files files={files}/>
 

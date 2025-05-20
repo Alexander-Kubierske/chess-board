@@ -1,0 +1,27 @@
+.popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: var(--quarter-tile);
+    height: 100%;
+    width: 100%;
+    max-height: var(--board-size);
+    max-width: var(--board-size);
+    overflow: hidden;
+    background-color: #535352c4;
+    
+
+    /** for testing
+    background-color: rgb(200, 0, 0,.5);
+    */
+   
+}
+
+.popup-inner {
+    width: 50%;
+    min-height: 12.5%;
+    background: var(--tile-colour-light);
+    position: absolute;
+    border: 8px solid var(--tile-colour-light);
+    box-shadow: 0 0 0 8px var(--tile-colour-dark);
+}
