@@ -43,6 +43,11 @@ const Pieces = () =>{
         const [p,rank,file] = event.dataTransfer.getData('text').split(',')
 
         if (appState.availableMoves?.find(m => m[0] === x && m[1] === y)){
+            // En-passant logic to remove defending pawn
+            if(p.endsWith('p') && !newPosition[x][y] && x !== rank && y !== file ){
+                newPosition[rank][y] = ''
+            }
+
             newPosition[rank][file] = ''
             newPosition[x][y] = p
             dispatch(makeNewMove({newPosition}))

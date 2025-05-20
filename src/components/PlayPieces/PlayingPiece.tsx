@@ -36,7 +36,14 @@ const PlayingPiece: React.FC<PlayingPieceProps> = ({rank,file,piece}) => {
         e.dataTransfer.setData('text/plain',`${piece},${rank},${file}`)
         setTimeout(()=>{e.target.style.display = 'none'},0)
         if (turn === piece[0]) {
-            const availableMoves = arbiter.getRegularMoves({position:currentPosition, piece, rank, file})
+            const availableMoves = 
+                    arbiter.getValidMoves({
+                        position:currentPosition,
+                        prevPosition: position[position.length-2],
+                        piece, 
+                        rank, 
+                        file
+                    })
             dispatch(generateAvailableMoves({availableMoves}))
         }
     }

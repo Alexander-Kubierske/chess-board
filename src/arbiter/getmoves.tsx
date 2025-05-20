@@ -1,4 +1,5 @@
 export const getRookMoves = (position, piece, rank, file) => {
+    console.log('rook start')
     const moves = []
     const us = piece[0]
     const enemy = us === 'w' ? 'b' : 'w'
@@ -32,6 +33,7 @@ export const getRookMoves = (position, piece, rank, file) => {
 }
 
 export const getKnightMoves = (position, rank, file) => {
+    console.log('knight start')
     const moves = []
     const enemy = position[rank][file].startsWith('w') ? 'b' : 'w'
     
@@ -56,6 +58,7 @@ export const getKnightMoves = (position, rank, file) => {
 }
 
 export const getBishopMoves = (position, piece, rank, file) => {
+    console.log('bishop start')
     const moves = []
     const us = piece[0]
     const enemy = us === 'w' ? 'b' : 'w'
@@ -89,6 +92,7 @@ export const getBishopMoves = (position, piece, rank, file) => {
 }
 
 export const getQueenMoves = (position, piece, rank, file) => {
+    console.log('queen start')
     const moves = []
     const us = piece[0]
     const enemy = us === 'w' ? 'b' : 'w'
@@ -126,6 +130,7 @@ export const getQueenMoves = (position, piece, rank, file) => {
 }
 
 export const getKingMoves = (position, piece, rank, file) => {
+    console.log('king start')
     const moves = []
     const us = piece[0]
 
@@ -146,8 +151,8 @@ export const getKingMoves = (position, piece, rank, file) => {
 }
 
 export const getPawnMoves = (position, piece, rank, file) => {
+    console.log('pawn start')
     const moves = []
-    const us = piece[0]
     const dir = piece === 'wp' ? 1 : -1
     
     if (!position?.[rank+dir][file]){
@@ -163,17 +168,38 @@ export const getPawnMoves = (position, piece, rank, file) => {
     return moves
 }
 
-export const getPawnCaptures = (position, piece, rank, file) => {
+export const getPawnCaptures = (position, prevPosition, piece, rank, file) => {
+    console.log('pawn capture start')
     const moves = []
     const dir = piece === 'wp' ? 1 : -1
     const enemy = piece[0] === 'w' ? 'b' : 'w'
     
+    //capture to left
     if (position?.[rank+dir]?.[file-1] && position?.[rank+dir]?.[file-1].startsWith(enemy)){
-       moves.push([rank+dir,file-1]) 
+        moves.push([rank+dir,file-1]) 
     }
+    //capture to right
     if (position?.[rank+dir]?.[file+1] && position?.[rank+dir]?.[file+1].startsWith(enemy)){
         moves.push([rank+dir,file+1]) 
-     }
+    }
+
+    // En-Passant Logic
+    const enemyPawn = dir === 1 ? 'bp': 'wp'
+    const adjacentFiles = [file-1,file+1]
+    // checks if the attacking pawn has moved 3 ranks 
+    if (prevPosition){
+        // checks if the advancing pawn is on the correct rank to en-passant
+        if((dir=== 1 && rank === 4) || (dir === -1 && rank === 3)){
+            adjacentFiles.forEach(f => {
+                if (position?.[rank]?.[f] === enemyPawn && //  checks if there is a pawn adjacent to the advancing pawn
+                    position?.[rank+dir+dir]?.[f] === '' && // checks where the defending pawn started (must be empty)
+                    prevPosition?.[rank]?.[f] === '' && // checks if defending pawns current position was empty 1 move before
+                    prevPosition?.[rank+dir+dir]?.[f] === enemyPawn){ // checks if defending pawn was 2 blocks before its current position
+                        moves.push([rank+dir,f])
+                }
+            })
+        }
+    }
     
     return moves
 }
