@@ -1,20 +1,33 @@
-import { copyPosition } from "../helper"
+import { copyPosition } from "../helper";
 
-export const movePiece = ({position, piece, rank, file, x, y}) => {
-    const newPosition = copyPosition(position)
-    newPosition[rank][file] = ''
-    newPosition[x][y] = piece
+export const movePiece = ({ position, piece, rank, file, x, y }) => {
+  const newPosition = copyPosition(position);
 
-    return newPosition
-}
+  if (piece.endsWith("k") && Math.abs(y - file) > 1) {
+    if (y === 2) {
+      newPosition[rank][0] = "";
+      newPosition[rank][3] = piece.startsWith("w") ? "wr" : "br";
+    }
 
-export const movePawn = ({position, piece, rank, file, x, y}) => {
-    const newPosition = copyPosition(position)
-    if (!newPosition[x][y] && x !== rank && y !== file )
-        newPosition [rank][y]=''
+    if (y === 6) {
+      newPosition[rank][7] = "";
+      newPosition[rank][5] = piece.startsWith("w") ? "wr" : "br";
+    }
+  }
 
-    newPosition[rank][file] = ''
-    newPosition[x][y] = piece
+  newPosition[rank][file] = "";
+  newPosition[x][y] = piece;
 
-    return newPosition
-}
+  return newPosition;
+};
+
+export const movePawn = ({ position, piece, rank, file, x, y }) => {
+  const newPosition = copyPosition(position);
+
+  if (!newPosition[x][y] && x !== rank && y !== file) newPosition[rank][y] = "";
+
+  newPosition[rank][file] = "";
+  newPosition[x][y] = piece;
+
+  return newPosition;
+};
