@@ -29,7 +29,7 @@ export const createPosition = () => {
   //black side//
   // position[7][0] = "br";
   // position[7][1] = "bn";
-  position[7][2] = "bb";
+  position[7][3] = "bb";
   // position[7][3] = "bq";
   position[7][7] = "bk";
   // position[7][5] = "bb";
@@ -52,7 +52,7 @@ export const copyPosition = (position) => {
 };
 
 export const areSameColourTiles = (coords1, coords2) => {
-  (coords1.x + coords1.y) % 2 === coords2.x + coords2.y;
+  return (coords1.x + coords1.y) % 2 === (coords2.x + coords2.y) % 2;
 };
 
 export const findPieceCoords = (position, type) => {
@@ -62,4 +62,5 @@ export const findPieceCoords = (position, type) => {
       if (pos === type) results.push({ x: i, y: j });
     });
   });
+  return results;
 };

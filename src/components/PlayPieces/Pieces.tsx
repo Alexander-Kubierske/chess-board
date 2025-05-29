@@ -9,7 +9,11 @@ import {
 } from "../../reducer/actions/movePiece";
 import { openPromotion } from "../../reducer/actions/popup";
 import { getCastleDirections } from "../../arbiter/getMoves";
-import { detectStalemate, updateCastling } from "../../reducer/actions/game";
+import {
+  detectStalemate,
+  updateCastling,
+  detectInsufficientMaterial,
+} from "../../reducer/actions/game";
 
 interface Coordinates {
   x: number;
@@ -83,7 +87,7 @@ const Pieces = () => {
       dispatch(makeNewMove({ newPosition }));
 
       if (arbiter.insufficientMaterial(newPosition)) {
-        console.log("insufficient material");
+        dispatch(detectInsufficientMaterial());
       } else if (
         arbiter.isStalemate({
           position: newPosition,

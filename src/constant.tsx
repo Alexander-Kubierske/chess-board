@@ -5,7 +5,7 @@ export const Status = {
   ongoing: "Ongoing",
   promoting: "Promoting",
   stalemate: "Game draws due to stalemate",
-  insufficient: "Game draws die to insufficient material",
+  insufficient: "Game draws due to insufficient material",
   white: "White wins",
   black: "Black wins",
 };

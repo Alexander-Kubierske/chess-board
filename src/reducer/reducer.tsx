@@ -74,6 +74,13 @@ export const reducer = (state: GameState, action: Action) => {
       };
     }
 
+    case actionTypes.INSUFFICIENT_MATERIAL: {
+      return {
+        ...state,
+        status: Status.insufficient,
+      };
+    }
+
     case actionTypes.NEW_GAME: {
       return {
         ...action.payload,

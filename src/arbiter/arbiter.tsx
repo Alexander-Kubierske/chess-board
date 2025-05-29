@@ -132,23 +132,29 @@ const arbiter = {
   },
 
   insufficientMaterial: function (position) {
-    console.log(position);
     const pieces = position.reduce(
       (acc, rank) => (acc = [...acc, ...rank.filter((x) => x)]),
       [],
     );
 
+    // Game state contains only 2 Kings
     if (pieces.length === 2) return true;
 
+    // Game state contains only three pieces one of which is a Knight or a Bishop
     if (
       pieces.length === 3 &&
       pieces.some((p) => p.endsWith("b") || p.endsWith("n"))
     )
       return true;
 
+    // Game state contains 4 pieces, 2 Bishops on the same colour
+    console.log(new Set(pieces));
     if (
       pieces.length === 4 &&
-      pieces.every((p) => p.endsWith("b") || p.endsWith("k")) &&
+      pieces.every(
+        (remainingPieces) =>
+          remainingPieces.endsWith("b") || remainingPieces.endsWith("k"),
+      ) &&
       new Set(pieces).size === 4 &&
       areSameColourTiles(
         findPieceCoords(position, "wb")[0],
