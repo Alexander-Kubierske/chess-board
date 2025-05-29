@@ -4,6 +4,8 @@ import { createPosition } from "./helper";
 export const Status = {
   ongoing: "Ongoing",
   promoting: "Promoting",
+  stalemate: "Game draws due to stalemate",
+  insufficient: "Game draws die to insufficient material",
   white: "White wins",
   black: "Black wins",
 };

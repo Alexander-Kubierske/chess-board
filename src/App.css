@@ -15,3 +15,12 @@ html,body {
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+button {
+  background: var(--tile-colour-dark);
+  color: var(--tile-colour-light);
+  border: 0 none;
+  padding: 10px 30px;
+  margin: 10px 0;
+  font-size: 1.1em;
+}

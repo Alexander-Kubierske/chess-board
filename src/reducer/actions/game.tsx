@@ -1,8 +1,23 @@
+import { initCompiler } from "sass";
 import actionTypes from "./actionTypes";
+import { initGameState } from "../../constant";
 
 export const updateCastling = (direction) => {
   return {
     type: actionTypes.CAN_CASTLE,
     payload: direction,
+  };
+};
+
+export const detectStalemate = () => {
+  return {
+    type: actionTypes.STALEMATE,
+  };
+};
+
+export const setupNewGame = () => {
+  return {
+    type: actionTypes.NEW_GAME,
+    payload: initGameState,
   };
 };

@@ -36,7 +36,7 @@ const arbiter = {
     if (piece.endsWith("p")) {
       moves = [
         ...moves,
-        ...getPawnCaptures(position, prevPosition, piece, rank, file),
+        ...getPawnCaptures({ position, prevPosition, piece, rank, file }),
       ];
     }
 
@@ -108,6 +108,26 @@ const arbiter = {
     }
 
     return false;
+  },
+
+  isStalemate: function ({ position, player, castleDirection }) {
+    const isPlayerInCheck = this.isPlayerInCheck({
+      positionAfterMove: position,
+      player,
+    });
+    if (isPlayerInCheck) return false;
+
+    const pieces = getPieces(position, player);
+    const moves = pieces.reduce(
+      (acc, p) =>
+        (acc = [
+          ...acc,
+          ...this.getValidMoves({ position, castleDirection, ...p }),
+        ]),
+      [],
+    );
+
+    return !isPlayerInCheck && moves.length === 0;
   },
 };
 

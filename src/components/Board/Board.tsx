@@ -7,6 +7,9 @@ import "./Board.css";
 import Files from "./boardComponents/Files";
 import Ranks from "./boardComponents/Ranks";
 
+import PromotionBox from "../Popup/PromotionBox/PromotionBox";
+import GameEnds from "../Popup/GameEnds/GameEnds";
+
 /**
  * Chessboard Component
  *
@@ -84,7 +87,10 @@ const Board = () => {
 
       <Pieces />
 
-      <Popup />
+      <Popup>
+        <PromotionBox />
+        <GameEnds />
+      </Popup>
 
       <Files files={files} />
     </div>
