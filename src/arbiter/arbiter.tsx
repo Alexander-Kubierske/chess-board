@@ -1,3 +1,4 @@
+import { areSameColourTiles, findPieceCoords } from "../helper";
 import {
   getRookMoves,
   getKnightMoves,
@@ -128,6 +129,35 @@ const arbiter = {
     );
 
     return !isPlayerInCheck && moves.length === 0;
+  },
+
+  insufficientMaterial: function (position) {
+    console.log(position);
+    const pieces = position.reduce(
+      (acc, rank) => (acc = [...acc, ...rank.filter((x) => x)]),
+      [],
+    );
+
+    if (pieces.length === 2) return true;
+
+    if (
+      pieces.length === 3 &&
+      pieces.some((p) => p.endsWith("b") || p.endsWith("n"))
+    )
+      return true;
+
+    if (
+      pieces.length === 4 &&
+      pieces.every((p) => p.endsWith("b") || p.endsWith("k")) &&
+      new Set(pieces).size === 4 &&
+      areSameColourTiles(
+        findPieceCoords(position, "wb")[0],
+        findPieceCoords(position, "bb")[0],
+      )
+    )
+      return true;
+
+    return false;
   },
 };
 

@@ -82,7 +82,9 @@ const Pieces = () => {
 
       dispatch(makeNewMove({ newPosition }));
 
-      if (
+      if (arbiter.insufficientMaterial(newPosition)) {
+        console.log("insufficient material");
+      } else if (
         arbiter.isStalemate({
           position: newPosition,
           player: opponent,
