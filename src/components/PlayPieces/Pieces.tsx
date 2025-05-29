@@ -8,7 +8,7 @@ import {
   makeNewMove,
 } from "../../reducer/actions/movePiece";
 import { openPromotion } from "../../reducer/actions/popup";
-import { getCastleDirections } from "../../arbiter/getmoves";
+import { getCastleDirections } from "../../arbiter/getMoves";
 import { updateCastling } from "../../reducer/actions/game";
 
 interface Coordinates {
@@ -45,7 +45,6 @@ const Pieces = () => {
     });
 
     if (direction) {
-      console.log(direction + `n/ is direction none here?`);
       dispatch(updateCastling(direction));
     }
   };
