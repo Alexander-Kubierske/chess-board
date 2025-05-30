@@ -148,7 +148,6 @@ const arbiter = {
       return true;
 
     // Game state contains 4 pieces, 2 Bishops on the same colour
-    console.log(new Set(pieces));
     if (
       pieces.length === 4 &&
       pieces.every(
@@ -164,6 +163,26 @@ const arbiter = {
       return true;
 
     return false;
+  },
+
+  isCheckMate: function ({ position, player, castleDirection }) {
+    const isPlayerInCheck = this.isPlayerInCheck({
+      positionAfterMove: position,
+      player,
+    });
+    if (!isPlayerInCheck) return false;
+
+    const pieces = getPieces(position, player);
+    const moves = pieces.reduce(
+      (acc, p) =>
+        (acc = [
+          ...acc,
+          ...this.getValidMoves({ position, castleDirection, ...p }),
+        ]),
+      [],
+    );
+
+    return isPlayerInCheck && moves.length === 0;
   },
 };
 

@@ -13,6 +13,7 @@ import {
   detectStalemate,
   updateCastling,
   detectInsufficientMaterial,
+  detectCheckMate,
 } from "../../reducer/actions/game";
 
 interface Coordinates {
@@ -96,6 +97,14 @@ const Pieces = () => {
         })
       ) {
         dispatch(detectStalemate());
+      } else if (
+        arbiter.isCheckMate({
+          position: newPosition,
+          player: opponent,
+          castleDirection: castleDirection,
+        })
+      ) {
+        dispatch(detectCheckMate(piece[0]));
       }
     }
 

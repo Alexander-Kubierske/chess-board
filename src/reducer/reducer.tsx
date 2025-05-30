@@ -74,6 +74,13 @@ export const reducer = (state: GameState, action: Action) => {
       };
     }
 
+    case actionTypes.WIN: {
+      return {
+        ...state,
+        status: action.payload === "w" ? Status.white : Status.black,
+      };
+    }
+
     case actionTypes.INSUFFICIENT_MATERIAL: {
       return {
         ...state,
