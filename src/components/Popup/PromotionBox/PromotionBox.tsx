@@ -1,5 +1,5 @@
 import { useAppContext } from "../../../contexts/Contexts";
-import { copyPosition } from "../../../helper";
+import { copyPosition, getNewMoveNotation } from "../../../helper";
 import {
   clearAvailableMoves,
   makeNewMove,
@@ -26,7 +26,15 @@ const PromotionBox = ({ onClosePopup }) => {
     newPosition[promotionSquare.x][promotionSquare.y] = colour + option;
 
     dispatch(clearAvailableMoves());
-    dispatch(makeNewMove({ newPosition }));
+
+    const newMove = getNewMoveNotation({
+      ...promotionSquare,
+      piece: colour + "p",
+      promotesTo: option,
+      position: appState.position[appState.position.length - 1],
+    });
+
+    dispatch(makeNewMove({ newPosition, newMove }));
   };
 
   return (

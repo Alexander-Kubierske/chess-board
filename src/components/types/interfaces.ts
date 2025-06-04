@@ -21,6 +21,11 @@ export interface GameState {
     availableMoves
 }
 
+export interface NewMoveParams {
+  newPosition: Position;
+  newMove: string;
+}
+
  interface Action {
     type:string;
     payload: {

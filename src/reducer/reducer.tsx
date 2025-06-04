@@ -15,13 +15,15 @@ import actionTypes from "./actions/actionTypes";
 export const reducer = (state: GameState, action: Action) => {
   switch (action.type) {
     case actionTypes.NEW_MOVE: {
-      let { turn, position } = state;
+      let { turn, movesList, position } = state;
 
       turn = turn === "w" ? "b" : "w";
 
       position = [...position, action.payload.newPosition];
+      movesList = [...movesList, action.payload.newMove];
       return {
         ...state,
+        movesList,
         turn,
         position,
       };
@@ -31,6 +33,23 @@ export const reducer = (state: GameState, action: Action) => {
       return {
         ...state,
         availableMoves: action.payload.availableMoves,
+      };
+    }
+
+    case actionTypes.TAKE_BACK: {
+      let { position, movesList, turn } = state;
+
+      if (position.length > 1) {
+        position = position.slice(0, position.length - 1);
+        movesList = movesList.slice(0, movesList.length - 1);
+        turn = turn === "w" ? "b" : "w";
+      }
+
+      return {
+        ...state,
+        position,
+        movesList,
+        turn,
       };
     }
 

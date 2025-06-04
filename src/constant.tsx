@@ -13,6 +13,7 @@ export const Status = {
 export const initGameState: GameState = {
   position: [createPosition()], // Creates the initial position of the chessboard
   turn: "w", // White's turn to start the game
+  movesList: [],
   availableMoves: [],
   status: Status.ongoing,
   promotionSquare: null,

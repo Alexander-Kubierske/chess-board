@@ -15,6 +15,7 @@ import {
   detectInsufficientMaterial,
   detectCheckMate,
 } from "../../reducer/actions/game";
+import { getNewMoveNotation } from "../../helper";
 
 interface Coordinates {
   x: number;
@@ -85,7 +86,18 @@ const Pieces = () => {
         y,
       });
 
-      dispatch(makeNewMove({ newPosition }));
+      const newMove = getNewMoveNotation({
+        piece,
+        rank,
+        file,
+        x,
+        y,
+        position: currentPosition,
+      });
+
+      console.log(newMove);
+
+      dispatch(makeNewMove({ newPosition, newMove }));
 
       if (arbiter.insufficientMaterial(newPosition)) {
         dispatch(detectInsufficientMaterial());

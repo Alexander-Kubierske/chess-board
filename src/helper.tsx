@@ -64,3 +64,50 @@ export const findPieceCoords = (position, type) => {
   });
   return results;
 };
+
+export const getNewMoveNotation = ({
+  piece,
+  rank,
+  file,
+  x,
+  y,
+  position,
+  promotesTo,
+}) => {
+  let note = "";
+
+  rank = Number(rank);
+  file = Number(file);
+
+  // Castling Notation
+  // Short Castle '0-0' : Long Castle '0-0-0'
+  if (piece[1] === "k" && Math.abs(file - y) === 2) {
+    if (file < y) {
+      // Short Castle
+      return "0-0";
+    } else {
+      // Long Castle
+      return "0-0-0";
+    }
+  }
+
+  // Normal move by any non-pawn piece
+  if (piece[1] !== "p") {
+    note += piece[1].toUpperCase();
+    if (position[x][y]) {
+      // add capture notation
+      note += "x";
+    }
+  } else if (rank !== x && file !== y) {
+    note += getCharacter(file + 1) + "x";
+  }
+
+  note += getCharacter(y + 1) + (x + 1);
+
+  // Promotion annotation
+  if (promotesTo) {
+    note += "=" + promotesTo.toUpperCase();
+  }
+
+  return note;
+};
