@@ -1,18 +1,27 @@
-import { GameState, Position } from "./components/types/interfaces";
+import { GameState } from "./types/interfaces";
 import { createPosition } from "./helper";
 
+/**
+ * Represents all possible states a chess game can be in and supplies the corresponding
+ * message players receive as the game ends.
+ *
+ * @readonly
+ * @enum {string}
+ */
 export const Status = {
-  ongoing: "Ongoing",
-  promoting: "Promoting",
-  stalemate: "Game draws due to stalemate",
-  insufficient: "Game draws due to insufficient material",
-  white: "White wins",
-  black: "Black wins",
-};
+  ongoing: "Ongoing", // status allowing players to move pieces as normal.
+  promoting: "Promoting", // status and flag for triggering promotion popup logic
+  stalemate: "Game draws due to stalemate", // flag and message for stalemate
+  insufficient: "Game draws due to insufficient material", // flag and message for insufficient material draw
+  white: "White wins", // flag and message for white wins
+  black: "Black wins", // flag and message for black wins
+} as const;
+
+export type StatusType = (typeof Status)[keyof typeof Status];
 
 export const initGameState: GameState = {
-  position: [createPosition()], // Creates the initial position of the chessboard
-  turn: "w", // White's turn to start the game
+  position: [createPosition()],
+  turn: "w",
   movesList: [],
   availableMoves: [],
   status: Status.ongoing,
@@ -22,15 +31,3 @@ export const initGameState: GameState = {
     b: "both",
   },
 };
-
-/**
- * The starting state of a regular chess game.
- * This object includes:
- * - The initial position of the chess pieces on the board, represented as a `Position` object, which is a 2D array of strings.
- *   The position is created using the `createPosition()` helper function, which sets up the chessboard with pieces in their starting positions.
- * - The current player's turn, which starts with 'w' for white's turn.
- *
- * @type {GameState}
- * @property {Position} position - The grid structure of the chess board (2D array)
- * @property {turn} turn - The current players turn.
- */

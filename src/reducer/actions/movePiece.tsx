@@ -1,5 +1,5 @@
 import actionTypes from "./actionTypes";
-import { NewMoveParams } from "../../components/types/interfaces";
+import { NewMoveParams, Move } from "../../types/interfaces";
 
 /**
  * Creates an action to make a new move on the chessboard.
@@ -17,7 +17,11 @@ export const makeNewMove = ({ newPosition, newMove }: NewMoveParams) => {
   };
 };
 
-export const generateAvailableMoves = ({ availableMoves }) => {
+export const generateAvailableMoves = ({
+  availableMoves,
+}: {
+  availableMoves: Move[];
+}) => {
   return {
     type: actionTypes.GENERATE_AVAILABLE_MOVES,
     payload: { availableMoves },

@@ -8,6 +8,7 @@
  */
 const actionTypes = {
   CAN_CASTLE: "CAN_CASTLE",
+  GENERATE_AVAILABLE_MOVES: "GENERATE_AVAILABLE_MOVES",
   CLEAR_AVAILABLE_MOVES: "CLEAR_AVAILABLE_MOVES",
   NEW_MOVE: "NEW_MOVE",
   TAKE_BACK: "TAKE_BACK",
@@ -18,5 +19,7 @@ const actionTypes = {
   WIN: "WIN",
   INSUFFICIENT_MATERIAL: "INSUFFICIENT_MATERIAL",
 } as const;
+
+export type ActionType = keyof typeof actionTypes;
 
 export default actionTypes;

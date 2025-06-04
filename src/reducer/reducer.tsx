@@ -1,4 +1,4 @@
-import { Action, GameState } from "../components/types/interfaces";
+import { Action, GameState } from "../types/interfaces";
 import { Status } from "../constant";
 import actionTypes from "./actions/actionTypes";
 

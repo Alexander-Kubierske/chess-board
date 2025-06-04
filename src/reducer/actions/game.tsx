@@ -1,4 +1,3 @@
-import { initCompiler } from "sass";
 import actionTypes from "./actionTypes";
 import { initGameState } from "../../constant";
 
@@ -15,7 +14,7 @@ export const detectStalemate = () => {
   };
 };
 
-export const detectCheckMate = (winner) => {
+export const detectCheckMate = (winner: string) => {
   return {
     type: actionTypes.WIN,
     payload: winner,
