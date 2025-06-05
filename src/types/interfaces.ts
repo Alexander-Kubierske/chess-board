@@ -5,14 +5,73 @@ import actionTypes from '../reducer/actions/actionTypes.tsx';
 export type Move = [number, number];
 
 /**
- * The positions each chess piece occupies. 
- * This represents a 3D array with each rank(row) being an array with a file (column) representing the
- * element for a chess cell wrapped in a third array which tracks past game piece layouts.
- * Pieces are represented as strings and empty spaces as empty strings.
+ * The positions each chess piece occupies stored as a 3D array. 
+ * The first dimension (position[]) is the index for past positions.
+ * Each child following after contains a 2D array representing the state of the board on that turn.
+ * Each child in the 2D array contains a Piece or empty string.
+ * 
+ * Example access:
+ * - `position[0]` is the initial board state.
+ * - `position[position.length - 1]` is the current board state.
+ * 
  * 
  *  @type {string[][][]}
  */
 export type Position = string[][][];
+
+/**
+ * The positions each chess piece occupies. 
+ * This represents a 3D array with each rank (row) being an array with a file (column) representing the
+ * element for a chess cell wrapped in a third array which tracks past game piece layouts.
+ * Pieces are represented as strings and empty spaces as empty strings.
+ * 
+ *  @type {string[][]}
+ */
+export type PrevPosition = string[][];
+
+/**
+ * Represents a chess piece using standard chess shorthand.
+ * 'w' = White, 'b' = Black
+ * 'p' = Pawn, 'r' = Rook, 'n' = Knight, 'b' = Bishop, 'q' = Queen, 'k' = King
+ * 
+ * @type {String}
+ */
+export type Piece =
+  | 'wp' | 'wr' | 'wn' | 'wb' | 'wq' | 'wk'
+  | 'bp' | 'br' | 'bn' | 'bb' | 'bq' | 'bk';
+
+/**
+ * Represents a board rank (row index) in 0-based grid format describing where a Piece is currently positioned.
+ * Rank 0 = first row (White’s back rank), Rank 7 = last row (Black’s back rank).
+ * 
+ * @type {Number}
+ */
+export type Rank = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+/**
+ * Represents a board file (column index) in 0-based grid format describing where a Piece is currently positioned.
+ * file 0 = first column (left most file), file 7 = last column (right most file).
+ * These are generally represented and annotated as a-h but for apps use case are stored as numbers.
+ * 
+ * @type {Number}
+ */
+export type File = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+/**
+ * Represents a board rank (row index) in 0-based grid format describing where a Piece can end on.
+ * x 0 = first column (left most file), x 7 = last column (right most file).
+ * 
+ * @type {Number}
+ */
+export type XCoordinate = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+/**
+ * Represents a board file (column index) in 0-based grid format describing where a Piece can end on.
+ * y 0 = first column (left most file), y 7 = last column (right most file).
+ * 
+ * @type {Number}
+ */
+export type YCoordinate = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 /**
  * Represents the full state of a chess game.

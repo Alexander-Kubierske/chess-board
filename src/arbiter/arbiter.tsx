@@ -12,6 +12,7 @@ import {
   getPieces,
 } from "./getMoves";
 import { movePawn, movePiece } from "./move";
+import { Position } from "../types/interfaces";
 
 const arbiter = {
   getRegularMoves: function ({ position, piece, rank, file }) {
@@ -57,6 +58,8 @@ const arbiter = {
         x,
         y,
       });
+
+      console.log("x " + x);
 
       if (
         !this.isPlayerInCheck({ positionAfterMove, position, player: piece[0] })
