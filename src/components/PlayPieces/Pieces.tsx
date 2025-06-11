@@ -17,6 +17,8 @@ import {
 } from "../../reducer/actions/game";
 import { getNewMoveNotation } from "../../helper";
 
+import { CoordLookUp } from "../../types/interfaces";
+
 interface Coordinates {
   x: number;
   y: number;
@@ -55,7 +57,7 @@ const Pieces = () => {
     }
   };
 
-  const openPromotionBox = ({ rank, file, x, y }) => {
+  const openPromotionBox = ({ rank, file, x, y }: CoordLookUp) => {
     dispatch(openPromotion({ rank: Number(rank), file: Number(file), x, y }));
   };
 
@@ -94,8 +96,6 @@ const Pieces = () => {
         y,
         position: currentPosition,
       });
-
-      console.log(newMove);
 
       dispatch(makeNewMove({ newPosition, newMove }));
 

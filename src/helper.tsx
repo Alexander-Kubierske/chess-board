@@ -1,3 +1,5 @@
+import { Position } from "./types/interfaces";
+
 /**
  * Converts a file number into a corresponding Unicode character.
  * It targets the Unicode characters starting from lower case a.
@@ -39,7 +41,7 @@ export const createPosition = () => {
   return position;
 };
 
-export const copyPosition = (position) => {
+export const copyPosition = (position: Position) => {
   const newPosition = new Array(8).fill("").map((x) => new Array(8).fill(""));
 
   for (let rank = 0; rank < 8; rank++) {
@@ -55,7 +57,7 @@ export const areSameColourTiles = (coords1, coords2) => {
   return (coords1.x + coords1.y) % 2 === (coords2.x + coords2.y) % 2;
 };
 
-export const findPieceCoords = (position, type) => {
+export const findPieceCoords = (position: Position, type) => {
   let results = [];
   position.forEach((rank, i) => {
     rank.forEach((pos, j) => {

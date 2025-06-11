@@ -1,4 +1,13 @@
 import { areSameColourTiles, findPieceCoords } from "../helper";
+import { Position } from "../types/interfaces";
+import {
+  GetRegularMovesInterface,
+  GetValidMovesInterface,
+  IsCheckMate,
+  IsPlayerInCheckInterface,
+  IsStalemateInterface,
+  PerformMoveInterface,
+} from "./arbiterInterfaces";
 import {
   getRookMoves,
   getKnightMoves,
@@ -12,10 +21,20 @@ import {
   getPieces,
 } from "./getMoves";
 import { movePawn, movePiece } from "./move";
-import { Position } from "../types/interfaces";
 
 const arbiter = {
-  getRegularMoves: function ({ position, piece, rank, file }) {
+  /**
+   * A helper function that identifies which piece is being moved and calls the corresponding function to handle
+   * moving that piece.
+   *
+   * @param {GetRegularMovesInterface}
+   */
+  getRegularMoves: function ({
+    position,
+    piece,
+    rank,
+    file,
+  }: GetRegularMovesInterface) {
     if (piece.endsWith("r")) return getRookMoves(position, piece, rank, file);
     if (piece.endsWith("n")) return getKnightMoves(position, rank, file);
     if (piece.endsWith("b")) return getBishopMoves(position, piece, rank, file);
@@ -24,6 +43,13 @@ const arbiter = {
     if (piece.endsWith("p")) return getPawnMoves(position, piece, rank, file);
   },
 
+  /**
+   *A function that finds all possible legal chess moves in order to display to the
+   *player which moves they can make. It returns either a 2D array with nested array coordinates or an empty array.
+   *
+   * @param {GetValidMovesInterface}
+   * @returns {number[][]} - Either an array of tuples or and empty array.
+   */
   getValidMoves: function ({
     position,
     castleDirection,
@@ -31,9 +57,9 @@ const arbiter = {
     piece,
     rank,
     file,
-  }) {
-    let moves = this.getRegularMoves({ position, piece, rank, file });
-    const notInCheckMoves = [];
+  }: GetValidMovesInterface) {
+    let moves = this.getRegularMoves({ position, piece, rank, file }) ?? [];
+    const notInCheckMoves: [number, number][] = [];
 
     if (piece.endsWith("p")) {
       moves = [
@@ -59,11 +85,10 @@ const arbiter = {
         y,
       });
 
-      console.log("x " + x);
-
       if (
         !this.isPlayerInCheck({ positionAfterMove, position, player: piece[0] })
       ) {
+        console.log(piece[0]);
         notInCheckMoves.push([x, y]);
       }
     });
@@ -71,7 +96,19 @@ const arbiter = {
     return notInCheckMoves;
   },
 
-  performMove: function ({ position, piece, rank, file, x, y }) {
+  /**
+   *
+   * @param {PerformMoveInterface}
+   * @returns {}
+   */
+  performMove: function ({
+    position,
+    piece,
+    rank,
+    file,
+    x,
+    y,
+  }: PerformMoveInterface) {
     if (piece.endsWith("p")) {
       return movePawn({ position, piece, rank, file, x, y });
     } else {
@@ -79,7 +116,11 @@ const arbiter = {
     }
   },
 
-  isPlayerInCheck: function ({ positionAfterMove, position, player }) {
+  isPlayerInCheck: function ({
+    positionAfterMove,
+    position,
+    player,
+  }: IsPlayerInCheckInterface) {
     const enemy = player.startsWith("w") ? "b" : "w";
 
     let kingPosition = getKingPosition(positionAfterMove, player);
@@ -114,7 +155,16 @@ const arbiter = {
     return false;
   },
 
-  isStalemate: function ({ position, player, castleDirection }) {
+  /**
+   *
+   * @param {IsStalemateInterface}
+   * @returns {}
+   */
+  isStalemate: function ({
+    position,
+    player,
+    castleDirection,
+  }: IsStalemateInterface) {
     const isPlayerInCheck = this.isPlayerInCheck({
       positionAfterMove: position,
       player,
@@ -134,7 +184,7 @@ const arbiter = {
     return !isPlayerInCheck && moves.length === 0;
   },
 
-  insufficientMaterial: function (position) {
+  insufficientMaterial: function (position: Position) {
     const pieces = position.reduce(
       (acc, rank) => (acc = [...acc, ...rank.filter((x) => x)]),
       [],
@@ -168,7 +218,7 @@ const arbiter = {
     return false;
   },
 
-  isCheckMate: function ({ position, player, castleDirection }) {
+  isCheckMate: function ({ position, player, castleDirection }: IsCheckMate) {
     const isPlayerInCheck = this.isPlayerInCheck({
       positionAfterMove: position,
       player,
